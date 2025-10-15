@@ -1,11 +1,9 @@
 import streamlit as st
-st.write("Loaded secrets:", list(st.secrets.keys()))
+st.text(open(".streamlit/secrets.toml").read())
+
 from utils import query_gemini
 import re
-
-# ✅ Load API key safely from Streamlit secrets
 API = st.secrets.get("GEMINI_API_KEY")
-
 if not API:
     st.error("⚠️ GEMINI_API_KEY not found! Please check your .streamlit/secrets.toml file.")
     st.stop()
@@ -61,6 +59,7 @@ if st.button("✨ Generate Response ✨"):
         f"<div style='background-color:#fdfaf1; padding:20px; border-radius:12px; font-size:18px; line-height:1.75; white-space:pre-wrap;'>{result}</div>",
         unsafe_allow_html=True
     )
+
 
 
 
