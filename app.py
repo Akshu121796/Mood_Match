@@ -1,4 +1,5 @@
 import streamlit as st
+st.write("Loaded secrets:", list(st.secrets.keys()))
 from utils import query_gemini
 import re
 
@@ -56,3 +57,4 @@ if st.button("✨ Generate Response ✨"):
         f"<div style='background-color:#fdfaf1; padding:20px; border-radius:12px; font-size:18px; line-height:1.75; white-space:pre-wrap;'>{result}</div>",
         unsafe_allow_html=True
     )
+
