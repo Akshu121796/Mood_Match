@@ -3,12 +3,6 @@ import os
 import re
 from utils import query_gemini
 
-# --- Debug info (optional) ---
-st.write("Working directory:", os.getcwd())
-if os.path.exists(".streamlit"):
-    st.write("Files in .streamlit:", os.listdir(".streamlit"))
-st.write("Loaded secrets:", list(st.secrets.keys()))
-
 # --- Load API key safely ---
 API = st.secrets.get("GEMINI_API_KEY")
 if not API:
@@ -69,3 +63,4 @@ if st.button("✨ Generate Response ✨"):
         f"<div style='background-color:#fdfaf1; padding:20px; border-radius:12px; font-size:18px; line-height:1.75; white-space:pre-wrap;'>{result}</div>",
         unsafe_allow_html=True
     )
+
