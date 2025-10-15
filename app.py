@@ -1,16 +1,25 @@
 import streamlit as st
 import os
+import re
+from utils import query_gemini
+
+# --- Debug info (optional) ---
 st.write("Working directory:", os.getcwd())
-st.write("Files in .streamlit:", os.listdir(".streamlit"))
+if os.path.exists(".streamlit"):
+    st.write("Files in .streamlit:", os.listdir(".streamlit"))
 st.write("Loaded secrets:", list(st.secrets.keys()))
 
-from utils import query_gemini
-import re
+# --- Load API key safely ---
+API = st.secrets.get("GEMINI_API_KEY")
+if not API:
+    st.error("⚠️ GEMINI_API_KEY not found! Please check your .streamlit/secrets.toml file.")
+    st.stop()
 
-
+# --- Helper function ---
 def clean_html(raw_text):
     return re.sub(r"<[^>]+>", "", raw_text).strip()
 
+# --- Streamlit UI setup ---
 st.set_page_config(page_title="MoodMatch", layout="centered")
 
 # Custom Styles
@@ -46,6 +55,7 @@ q3 = st.selectbox("3. Pick the word that matches your vibe 🫶", [
     "Frustrated", "Vulnerable", "Horny"
 ])
 
+# --- Generate button ---
 if st.button("✨ Generate Response ✨"):
     mood_summary = f"Day: {q1}. Current desire: {q2}. Emotional vibe: {q3}."
     prompt = f"Generate a {content_type.lower()} that reflects the following mood: {mood_summary}"
@@ -59,11 +69,3 @@ if st.button("✨ Generate Response ✨"):
         f"<div style='background-color:#fdfaf1; padding:20px; border-radius:12px; font-size:18px; line-height:1.75; white-space:pre-wrap;'>{result}</div>",
         unsafe_allow_html=True
     )
-
-
-
-
-
-
-
-
